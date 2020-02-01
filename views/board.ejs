@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Bootstrap Theme Simply Me</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="/client.js"></script>
+  <style>
+  body {
+    font: 20px Montserrat, sans-serif;
+    line-height: 1.8;
+    color: #f5f6f7;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+    background-color: #1abc9c; /* Green */
+    color: #ffffff;
+  }
+  .bg-2 { 
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
+  }
+  .bg-3 { 
+    background-color: #ffffff; /* White */
+    color: #555555;
+  }
+  .bg-4 { 
+    background-color: #2f2f2f; /* Black Gray */
+    color: #fff;
+  }
+  .container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+  .navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+    color: #1abc9c !important;
+  }
+  .table tbody tr:hover {
+    color: #212529;
+    background-color: cornflowerblue;
+    cursor: pointer;
+  }
+  th{
+    text-align: center;
+  }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">Me</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <%if(!flag){%>
+          <li><a href="/login">LOGIN</a></li>
+          <li><a href="/join">JOIN</a></li>
+          <%} else {%>
+          <li><a href="/login/out">LOGOUT</a></li>
+          <%} %>
+        <li><a href="/game">GAME</a></li>
+        <li><a href="/board" id="board">BOARD</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2 text-center">
+  <h3 class="margin">게시판 검색</h3>
+  <form action="/board" method="GET"> 
+    <input name="search" style="color: black;">
+    <button class="btn btn-default btn-lg" type="submit" id="search_btn">
+    <span class="glyphicon glyphicon-search"></span> Search
+    </button>
+  </form>
+</div>
+
+<!-- Third Container (Grid) -->
+<div class="container-fluid bg-3 text-center">
+  <% if(selected==1) {%>
+  <table class="center-block" style="margin-bottom: 50px;" width="900px">
+    <tr>
+      <th width="200px">글제목</th>
+      <td style="vertical-align: top; text-align: left;" width="700px"><%= result[0].title %></td>
+    </tr>
+    <tr>
+      <th width="200px" style="vertical-align: top;">글내용</th>
+      
+      <td style="vertical-align: top; text-align: left;  word-break: break-all; width: 700px; height: 200px;"><div style="overflow:auto; width:100%; height: 100%;"><%= result[0].content %></div></td>
+      
+    </tr>
+  </table>
+  <div class="btn btn-default pull-right" style="margin: 0px 10px;" onclick="location.href='/board/write'">글쓰기</div>
+  <% } else if(selected==2) {%>
+  <table class="center-block" style="margin-bottom: 50px;" width="900px">
+      <tr>
+
+        <th width="200px">글제목</th>
+        <td style="vertical-align: top; text-align: left;" width="700px"><input style="width: 100%;" id="board_write_title"></td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+      <tr>
+        <th width="200px" style="vertical-align: top;">글내용</th>
+        
+        <td style="vertical-align: top; text-align: left;  word-break: break-all; width: 700px; height: 250px;"><textarea style="width: 100%;  height: 100%; resize: none;" id="board_write_content"></textarea></td>
+      </tr>
+  </table>
+  <div class="btn btn-default pull-right" style="margin: 0px 10px;" id="board_write_register">등록</div>
+  <% }else{ %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th width="30px">No</th>
+        <th width="200px">title</th>
+        <th width="50px">author</th>
+        <th width="30px">hit</th>
+        <th width="100px">date</th>
+      </tr>
+    </thead>
+    <% let de=(list*5>result.length?result.length:list*5) %>
+    <tbody>
+      <% for(let i=(list-1)*5; i<de; i++) {%>
+      <tr onclick="location.href='/board/show?no=<%=result[i].no%>'">
+        <td width="30px"><%=i+1%></td>
+        <td width="200px"><%=result[i].title%></td>
+        <td width="50px"><%=result[i].name%></td>
+        <td width="30px"><%=result[i].hit%></td>
+        <% dd=result[i].time.getDate() %>
+        <td width="100px"><%=result[i].time.getFullYear()+ '-'+(Number(result[i].time.getMonth()+1)>9?Number(result[i].time.getMonth()+1):'0'+Number(result[i].time.getMonth()+1))+'-'+ (dd>9 ?dd :'0'+dd)%></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  <div class="btn btn-default pull-right" style="margin: 0px 10px;" onclick="location.href='/board/write'">글쓰기</div>
+  <%}%>
+  <div class="btn btn-default pull-left" style="margin: 0px 10px;" onclick="location.href='/board'">전체보기</div>
+  
+  <div class="text-center" style="margin: 70px 0px">
+    <ul class="pagination">
+    <% for(let i=0; i<result.length; i+=5) {%>
+    <li><a href="?list=<%=(i/5)+1%>"><%=(i/5)+1%></a></li>
+    <% } %>
+    </ul>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
+</footer>
+
+</body>
+</html>

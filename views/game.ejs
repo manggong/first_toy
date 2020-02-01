@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="js/client.js"></script>
-  <script src="js/game.js"></script>
+  <script src="/client.js"></script>
+  <script src="/game.js"></script>
   <style>
     body {
       font: 20px Montserrat, sans-serif;
@@ -93,10 +93,12 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/login">LOGIN</a></li>
-          <li><a href="/join">JOIN</a></li>
-          <li><a href="#">GAME</a></li>
-          <li><a href="#">BOARD</a></li>
+          <%if(!flag){%>
+            <li><a href="/join">JOIN</a></li>
+            <%} else {%>
+            <li><a href="/login/out">LOGOUT</a></li>
+            <%} %>
+            <li><a href="/board">BOARD</a></li>
         </ul>
       </div>
     </div>
@@ -104,7 +106,7 @@
 
   <!-- First Container -->
   <div id="join_form" class="container-fluid bg-1 text-center">
-
+    <div id='game'></div>
     <br>
     <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" style="color: black">ACCELERATE</button>
     <p>버튼을 누르면 캐릭터가 점프 합니다.</p>
