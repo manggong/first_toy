@@ -2,11 +2,11 @@ $(document).ready(function(){
     $('#board_write_register').click(function(){
         const title=$('#board_write_title').val();
         const content=$('#board_write_content').val();
-        alert(content);
         const send_param={title,content};
         $.post('/board/register',send_param,(returnData)=>{
             alert(returnData.message);
-            location.href="/board";
+            if(returnData.flag==0) location.href="/board/write";
+            else location.href="/board";
         });
     });
     // 회원가입 시작

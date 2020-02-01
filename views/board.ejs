@@ -58,6 +58,23 @@
   th{
     text-align: center;
   }
+  .glow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px black, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  
+  to {
+    text-shadow: 0 0 20px black, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
   </style>
 </head>
 <body>
@@ -135,6 +152,7 @@
     <thead>
       <tr>
         <th width="30px">No</th>
+        <th width="30px"></th>
         <th width="200px">title</th>
         <th width="50px">author</th>
         <th width="30px">hit</th>
@@ -145,10 +163,22 @@
     <tbody>
       <% for(let i=(list-1)*5; i<de; i++) {%>
       <tr onclick="location.href='/board/show?no=<%=result[i].no%>'">
+       
         <td width="30px"><%=i+1%></td>
-        <td width="200px"><%=result[i].title%></td>
-        <td width="50px"><%=result[i].name%></td>
-        <td width="30px"><%=result[i].hit%></td>
+        <td width="50px">
+        <% if(result[i].hit>=20) {%>
+          
+          <div class="glow" style="display: inline;"> HOT&star;</div>
+          
+        <% } %>
+        </td>
+        <td width="200px" style="text-align: left;">
+          <%=result[i].title%>
+        </td>
+        <td width="100px"><%=result[i].name%></td>
+        <td width="30px">
+          <%=result[i].hit%>
+        </td>
         <% dd=result[i].time.getDate() %>
         <td width="100px"><%=result[i].time.getFullYear()+ '-'+(Number(result[i].time.getMonth()+1)>9?Number(result[i].time.getMonth()+1):'0'+Number(result[i].time.getMonth()+1))+'-'+ (dd>9 ?dd :'0'+dd)%></td>
       </tr>
@@ -161,9 +191,10 @@
   
   <div class="text-center" style="margin: 70px 0px">
     <ul class="pagination">
+  <% if(selected==0){%>
     <% for(let i=0; i<result.length; i+=5) {%>
-    <li><a href="?list=<%=(i/5)+1%>"><%=(i/5)+1%></a></li>
-    <% } %>
+        <li><a href="?list=<%=(i/5)+1%>&search=<%=search%>"><%=(i/5)+1%></a></li>
+    <% }} %>
     </ul>
   </div>
 </div>

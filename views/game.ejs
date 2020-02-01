@@ -11,8 +11,88 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="/client.js"></script>
+  <%if(gameflag==1){%>
   <script src="/game.js"></script>
+  <%} else if(gameflag==2){%>
+  <script src="/game2.js"></script>
+  <%} else if(gameflag==3){%>
+  <script src="/tetris.js"></script>
+  <%}%>   
+
   <style>
+    div.tetrisGame {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 600px;
+  height: 600px;
+}
+
+div.tetrisGame div.tetrisLeftPane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+}
+
+div.tetrisLeftPane div.tetrisScore {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  font-size: 20pt;
+}
+
+div.tetrisLeftPane div.tetrisPreview {
+  position: absolute;
+  left: 150px;
+  width: 120px;  /* 4 cols * 30px */
+  height: 120px;  /* 4 rows * 30px */
+}
+
+div.tetrisLeftPane div.tetrisUsage {
+  position: absolute;
+  left: 0;
+  top: 300px;
+}
+
+div.tetrisLeftPane div.tetrisUsage th,
+div.tetrisLeftPane div.tetrisUsage td {
+  text-align: left;
+}
+
+div.tetrisLeftPane div.tetrisUsage td {
+  padding-left: 1em;
+}
+
+div.tetrisRightPane {
+  position: absolute;
+  left: 300px;
+  top: 0px;
+  width: 300px;  /* 10 cols * 30px */
+  height: 600px;  /* 20 rows * 30px */
+}
+
+div.tetrisRightPane div.tetrisBoard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;  /* 10 cols * 30px */
+  height: 600px;  /* 20 rows * 30px */
+}
+
+div.tetrisBlock {
+  position: absolute;
+  width: 29px;
+  height: 29px;
+  border: 1px solid black;
+  background-color: black;
+}
+
+div.tetrisBlock.habitated {
+  border: 1px solid black;
+  background-color: gray;
+}
     body {
       font: 20px Montserrat, sans-serif;
       line-height: 1.8;
@@ -77,9 +157,15 @@
     }
   </style>
 </head>
-
+<%if(gameflag==1){%>
 <body onload="startGame()">
-
+<%}else if(gameflag==2){%>
+<body onload="startGame()">
+<%}else if(gameflag==3){%>
+<body onload="tetris_run(document.getElementById('game'))">
+<%}else{%>
+<body>
+<%}%>
   <!-- Navbar -->
   <nav class="navbar navbar-default">
     <div class="container">
@@ -106,11 +192,28 @@
 
   <!-- First Container -->
   <div id="join_form" class="container-fluid bg-1 text-center">
-    <div id='game'></div>
+    <div id='game' style="display: inline-block;"></div>
+    <% if(gameflag==1){ %>
     <br>
-    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" style="color: black">ACCELERATE</button>
+    <button class="btn btn-primary" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" style="display:inline-block;">ACCELERATE</button>
+    <p style="height: 20px;"></p>
     <p>버튼을 누르면 캐릭터가 점프 합니다.</p>
     <p>점프를 이용하여 캐릭터를 멀리 보내세요.</p>
+    <%} else if(gameflag==2){ %>
+      <br>
+      <div style="text-align:center;width:480px; display:inline-block;">
+        <button class="btn btn-primary" onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()" style="margin: 10px;">UP</button><br>
+        <button class="btn btn-primary" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()" style="margin: 10px;">LEFT</button>
+        <button class="btn btn-primary" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()" style="margin: 10px;">RIGHT</button><br>
+        <button class="btn btn-primary" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()" style="margin: 10px;">DOWN</button>
+    </div>
+    <% } else if(gameflag==0){ %>
+      <div class="container-fluid bg-1 text-center">
+        <img src="/image.jfif" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/1'">
+        <img src="/image.jfif" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/2'">
+        <img src="/tetris.png" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/3'">
+      </div>
+    <% } %>
   </div>
 
   <!--   // Second Container 
