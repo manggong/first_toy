@@ -1,142 +1,174 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-        canvas {
-            border: 1px solid #d3d3d3;
-            background-color: #f1f1f1;
-        }
-    </style>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="js/client.js"></script>
+  <script src="js/game.js"></script>
+  <style>
+    body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: #f5f6f7;
+    }
+
+    p {
+      font-size: 16px;
+    }
+
+    .margin {
+      margin-bottom: 45px;
+    }
+
+    .bg-1 {
+      background-color: #1abc9c;
+      /* Green */
+      color: #ffffff;
+    }
+
+    .bg-2 {
+      background-color: #474e5d;
+      /* Dark Blue */
+      color: #ffffff;
+    }
+
+    .bg-3 {
+      background-color: #ffffff;
+      /* White */
+      color: #555555;
+    }
+
+    .bg-4 {
+      background-color: #2f2f2f;
+      /* Black Gray */
+      color: #fff;
+    }
+
+    .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+
+    .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+    }
+
+    .navbar-nav li a:hover {
+      color: #1abc9c !important;
+    }
+
+    /*게임 canvas*/
+    canvas {
+      border: 1px solid #d3d3d3;
+      background-color: #f1f1f1;
+    }
+  </style>
 </head>
 
 <body onload="startGame()">
-    <script>
-        var myGamePiece;
-        var myObstacles = [];
-        var myScore;
 
-        function startGame() {
-            myGamePiece = new component(30, 30, "red", 10, 120);
-            myGamePiece.gravity = 0.05;
-            myScore = new component("30px", "Consolas", "black", 280, 40, "text");
-            myGameArea.start();
-        }
+  <!-- Navbar -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Logo</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login">LOGIN</a></li>
+          <li><a href="/join">JOIN</a></li>
+          <li><a href="#">GAME</a></li>
+          <li><a href="#">BOARD</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-        var myGameArea = {
-            canvas: document.createElement("canvas"),
-            start: function () {
-                this.canvas.width = 480;
-                this.canvas.height = 270;
-                this.context = this.canvas.getContext("2d");
-                document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-                this.frameNo = 0;
-                this.interval = setInterval(updateGameArea, 20);
-            },
-            clear: function () {
-                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            }
-        }
+  <!-- First Container -->
+  <div id="join_form" class="container-fluid bg-1 text-center">
 
-        function component(width, height, color, x, y, type) {
-            this.type = type;
-            this.score = 0;
-            this.width = width;
-            this.height = height;
-            this.speedX = 0;
-            this.speedY = 0;
-            this.x = x;
-            this.y = y;
-            this.gravity = 0;
-            this.gravitySpeed = 0;
-            this.update = function () {
-                ctx = myGameArea.context;
-                if (this.type == "text") {
-                    ctx.font = this.width + " " + this.height;
-                    ctx.fillStyle = color;
-                    ctx.fillText(this.text, this.x, this.y);
-                } else {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
-                }
-            }
-            this.newPos = function () {
-                this.gravitySpeed += this.gravity;
-                this.x += this.speedX;
-                this.y += this.speedY + this.gravitySpeed;
-                this.hitBottom();
-            }
-            this.hitBottom = function () {
-                var rockbottom = myGameArea.canvas.height - this.height;
-                if (this.y > rockbottom) {
-                    this.y = rockbottom;
-                    this.gravitySpeed = 0;
-                }
-            }
-            this.crashWith = function (otherobj) {
-                var myleft = this.x;
-                var myright = this.x + (this.width);
-                var mytop = this.y;
-                var mybottom = this.y + (this.height);
-                var otherleft = otherobj.x;
-                var otherright = otherobj.x + (otherobj.width);
-                var othertop = otherobj.y;
-                var otherbottom = otherobj.y + (otherobj.height);
-                var crash = true;
-                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft >
-                        otherright)) {
-                    crash = false;
-                }
-                return crash;
-            }
-        }
-
-        function updateGameArea() {
-            var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-            for (i = 0; i < myObstacles.length; i += 1) {
-                if (myGamePiece.crashWith(myObstacles[i])) {
-                    return;
-                }
-            }
-            myGameArea.clear();
-            myGameArea.frameNo += 1;
-            if (myGameArea.frameNo == 1 || everyinterval(150)) {
-                x = myGameArea.canvas.width;
-                minHeight = 20;
-                maxHeight = 200;
-                height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
-                minGap = 50;
-                maxGap = 200;
-                gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-                myObstacles.push(new component(10, height, "green", x, 0));
-                myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
-            }
-            for (i = 0; i < myObstacles.length; i += 1) {
-                myObstacles[i].x += -1;
-                myObstacles[i].update();
-            }
-            myScore.text = "SCORE: " + myGameArea.frameNo;
-            myScore.update();
-            myGamePiece.newPos();
-            myGamePiece.update();
-        }
-
-        function everyinterval(n) {
-            if ((myGameArea.frameNo / n) % 1 == 0) {
-                return true;
-            }
-            return false;
-        }
-
-        function accelerate(n) {
-            myGamePiece.gravity = n;
-        }
-    </script>
     <br>
-    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
-    <p>Use the ACCELERATE button to stay in the air</p>
-    <p>How long can you stay alive?</p>
+    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" style="color: black">ACCELERATE</button>
+    <p>버튼을 누르면 캐릭터가 점프 합니다.</p>
+    <p>점프를 이용하여 캐릭터를 멀리 보내세요.</p>
+  </div>
+
+  <!--   // Second Container 
+    <div class="container-fluid bg-2 text-center">
+      <h3 class="margin">게시판 검색</h3>
+      <input id="search_board" />
+      <a href="#" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </a>
+    </div>
+
+    // Third Container (Grid) 
+    <div class="container-fluid bg-3 text-center">
+      <h3 class="margin">Where To Find Me?</h3>
+      <br />
+      <div class="row">
+        <div class="col-sm-4">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <img
+            src="birds1.jpg"
+            class="img-responsive margin"
+            style="width:100%"
+            alt="Image"
+          />
+        </div>
+        <div class="col-sm-4">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <img
+            src="birds2.jpg"
+            class="img-responsive margin"
+            style="width:100%"
+            alt="Image"
+          />
+        </div>
+        <div class="col-sm-4">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <img
+            src="birds3.jpg"
+            class="img-responsive margin"
+            style="width:100%"
+            alt="Image"
+          />
+        </div>
+      </div>
+    </div> -->
+
+  <!-- Footer -->
+  <footer class="container-fluid bg-4 text-center">
+    <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p>
+  </footer>
+
 </body>
 
 </html>
