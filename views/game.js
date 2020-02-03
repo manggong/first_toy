@@ -1,11 +1,25 @@
 var myGamePiece;
 var myObstacles = [];
 var myScore;
+var filter;
+var restart;
+
+function restartGame() {
+    myObstacles = [];
+    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece.gravity = 0.05;
+    filter = document.getElementById('myfilter');
+    restart = document.getElementById('restart');
+    filter.style.display = "none";
+    restart.style.display = "none";
+    myGameArea.start();
+}
 
 function startGame() {
     myGamePiece = new component(30, 30, "red", 10, 120);
     myGamePiece.gravity = 0.05;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+
     myGameArea.start();
 }
 var myGameArea = {
@@ -14,13 +28,16 @@ var myGameArea = {
         this.canvas.width = 480;
         this.canvas.height = 270;
         this.context = this.canvas.getContext("2d");
-        const insertnode=document.getElementById('game');
+        const insertnode = document.getElementById('game');
         document.body.childNodes[7].insertBefore(this.canvas, insertnode);
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop: function () {
+        clearInterval(this.interval);
     }
 }
 
@@ -81,7 +98,20 @@ function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
-            //
+            myGameArea.stop();
+            filter = document.getElementById('myfilter');
+            restart = document.getElementById('restart');
+            filter.style.display = 'inline-block';
+            restart.style.display = 'inline-block';
+            const score = myGameArea.frameNo;
+            const send_param = {
+                score
+            }
+
+            $.post('/game/1', send_param, function (returnData) {
+                alert(returnData.message);
+            });
+
             return;
         }
     }

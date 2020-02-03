@@ -1,6 +1,18 @@
 var myGamePiece;
 var myObstacles = [];
 var myScore;
+var filter;
+var restart;
+
+function restartGame() {
+    myObstacles = [];
+    myGamePiece = new component(30, 30, "red", 10, 120);
+    filter = document.getElementById('myfilter');
+    restart = document.getElementById('restart');
+    filter.style.display = "none";
+    restart.style.display = "none";
+    myGameArea.start();
+}
 
 function startGame() {
     myGamePiece = new component(30, 30, "red", 10, 120);
@@ -74,6 +86,18 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
+            filter = document.getElementById('myfilter');
+            restart = document.getElementById('restart');
+            filter.style.display = "inline-block";
+            restart.style.display = "inline-block";
+            const score = myGameArea.frameNo;
+            const send_param = {
+                score
+            }
+
+            $.post('/game/2', send_param, function (returnData) {
+                alert(returnData.message);
+            });
             return;
         }
     }

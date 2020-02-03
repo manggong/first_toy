@@ -22,7 +22,7 @@ $(document).ready(function(){
   
       $.post('/join', send_param, function (returnData) {
         alert(returnData.message);
-        location.href="/";
+        if(returnData.flag==1) location.href="/";
       });
     }); // 회원가입 끝
   

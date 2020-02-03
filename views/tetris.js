@@ -4,43 +4,57 @@ var BLOCK_WIDTH = 30;
 var BLOCK_HEIGHT = 30;
 var TICK_MS = 400;
 
-var pieces =
-  [[[0, 0, 0, 0],
+var pieces = [
+  [
+    [0, 0, 0, 0],
     [0, 1, 1, 0],
     [0, 1, 1, 0],
-    [0, 0, 0, 0]],
-   [[0, 0, 1, 0],
+    [0, 0, 0, 0]
+  ],
+  [
     [0, 0, 1, 0],
     [0, 0, 1, 0],
-    [0, 0, 1, 0]],
-   [[0, 0, 1, 0],
+    [0, 0, 1, 0],
+    [0, 0, 1, 0]
+  ],
+  [
+    [0, 0, 1, 0],
     [0, 1, 1, 0],
     [0, 0, 1, 0],
-    [0, 0, 0, 0]],
-   [[0, 0, 0, 0],
+    [0, 0, 0, 0]
+  ],
+  [
+    [0, 0, 0, 0],
     [0, 0, 1, 1],
     [0, 1, 1, 0],
-    [0, 0, 0, 0]],
-   [[0, 0, 0, 0],
+    [0, 0, 0, 0]
+  ],
+  [
+    [0, 0, 0, 0],
     [0, 1, 1, 0],
     [0, 0, 1, 1],
-    [0, 0, 0, 0]],
-   [[0, 0, 1, 0],
+    [0, 0, 0, 0]
+  ],
+  [
+    [0, 0, 1, 0],
     [0, 0, 1, 0],
     [0, 1, 1, 0],
-    [0, 0, 0, 0]],
-   [[0, 1, 0, 0],
+    [0, 0, 0, 0]
+  ],
+  [
+    [0, 1, 0, 0],
     [0, 1, 0, 0],
     [0, 1, 1, 0],
-    [0, 0, 0, 0]]];
+    [0, 0, 0, 0]
+  ]
+];
 
 var KEY_ENTER = 13;
 var KEY_SPACE = 32;
 var KEY_LEFT = 37;
 var KEY_RIGHT = 39;
 var KEY_DOWN = 40;
-var KEY_A = 65;
-var KEY_D = 68;
+var KEY_UP = 38;
 var KEY_R = 82;
 
 function rotateLeft(piece) {
@@ -65,7 +79,7 @@ function intersects(rows, piece, y, x) {
   for (var i = 0; i < 4; i++)
     for (var j = 0; j < 4; j++)
       if (piece[i][j])
-        if (y+i >= NUM_ROWS || x+j < 0 || x+j >= NUM_COLS || rows[y+i][x+j])
+        if (y + i >= NUM_ROWS || x + j < 0 || x + j >= NUM_COLS || rows[y + i][x + j])
           return true;
   return false;
 }
@@ -77,14 +91,14 @@ function apply_piece(rows, piece, y, x) {
   for (var i = 0; i < 4; i++)
     for (var j = 0; j < 4; j++)
       if (piece[i][j])
-        newRows[y+i][x+j] = 1;
+        newRows[y + i][x + j] = 1;
   return newRows;
 }
 
 function kill_rows(rows) {
   var newRows = [];
   var k = NUM_ROWS;
-  for (var i = NUM_ROWS; i --> 0;) {
+  for (var i = NUM_ROWS; i-- > 0;) {
     for (var j = 0; j < NUM_COLS; j++) {
       if (!rows[i][j]) {
         newRows[--k] = rows[i].slice();
@@ -175,7 +189,7 @@ TetrisGame.prototype.rotateRight = function () {
 }
 
 TetrisGame.prototype.letFall = function () {
-  while (!intersects(this.rows, this.currentPiece, this.pieceY+1, this.pieceX))
+  while (!intersects(this.rows, this.currentPiece, this.pieceY + 1, this.pieceX))
     this.pieceY += 1;
   this.tick();
 }
@@ -274,13 +288,13 @@ function draw_tetrisUsage(game) {
   var usageElem = document.createElement('div');
   usageElem.classList.add('tetrisUsage');
   usageElem.innerHTML =
-       "<table>" +
-      "<tr><th>방향키</th><td>이동</td></tr>" +
-      "<tr><th>윗 방향키</th><td>회전</td></tr>" +
-      "<tr><th>Space bar</th><td>Let fall</td></tr>" +
-      "<tr><th>Enter</th><td>Toggle pause</td></tr>" +
-      "<tr><th>r</th><td>Restart game</td></tr>" +
-      "</table>";
+    "<table>" +
+    "<tr><th>방향키</th><td>이동</td></tr>" +
+    "<tr><th>윗 방향키</th><td>회전</td></tr>" +
+    "<tr><th>Space bar</th><td>Let fall</td></tr>" +
+    "<tr><th>Enter</th><td>Toggle pause</td></tr>" +
+    "<tr><th>r</th><td>Restart game</td></tr>" +
+    "</table>";
   return usageElem;
 }
 
@@ -305,37 +319,37 @@ function tetris_run(containerElem) {
     );
 
     function keyHandler(kev) {
-        if (kev.shiftKey || kev.altKey || kev.metaKey)
-          return;
-        var consumed = true;
-        var mustpause = false;
-        if (kev.keyCode === KEY_ENTER) {
-          mustpause = true;
-        } else if (kev.keyCode === KEY_R) {
-          game = new TetrisGame();
-        } else if (kev.keyCode === KEY_LEFT) {
-          game.steerLeft();
-        } else if (kev.keyCode === KEY_RIGHT) {
-          game.steerRight();
-        } else if (kev.keyCode === KEY_DOWN) {
-          game.steerDown();
-        } else if (kev.keyCode === 38) {
-          game.rotateRight();
-        } else if (kev.keyCode === KEY_SPACE) {
-          game.letFall();
+      if (kev.shiftKey || kev.altKey || kev.metaKey)
+        return;
+      var consumed = true;
+      var mustpause = false;
+      if (kev.keyCode === KEY_ENTER) {
+        mustpause = true;
+      } else if (kev.keyCode === KEY_R) {
+        game = new TetrisGame();
+      } else if (kev.keyCode === KEY_LEFT) {
+        game.steerLeft();
+      } else if (kev.keyCode === KEY_RIGHT) {
+        game.steerRight();
+      } else if (kev.keyCode === KEY_DOWN) {
+        game.steerDown();
+      } else if (kev.keyCode === KEY_UP) {
+        game.rotateRight();
+      } else if (kev.keyCode === KEY_SPACE) {
+        game.letFall();
+      } else {
+        consumed = false;
+      }
+      if (consumed) {
+        kev.preventDefault();
+        if (mustpause) {
+          document.body.removeEventListener('keydown', keyHandler);
+          clearInterval(intervalHandler);
+          pause();
         } else {
-          consumed = false;
+          redraw(game, false, containerElem);
         }
-        if (consumed) {
-          kev.preventDefault();
-          if (mustpause) {
-            document.body.removeEventListener('keydown', keyHandler);
-            clearInterval(intervalHandler);
-            pause();
-          } else {
-            redraw(game, false, containerElem);
-          }
-        }
+      }
     }
 
     document.body.addEventListener('keydown', keyHandler);

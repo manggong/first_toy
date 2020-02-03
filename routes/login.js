@@ -15,8 +15,8 @@ router.post('/', (req, res) => {
         if (err) throw err;
         console.log(result[0]);
         if (result[0]) {
-            req.session.name=result[0].name;
-            req.session.uid=id;
+            req.session.name = result[0].name;
+            req.session.uid = id;
             const name = result[0].name
             /*  res.render('index', {
                  flag: 1

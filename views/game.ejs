@@ -158,14 +158,18 @@ div.tetrisBlock.habitated {
   </style>
 </head>
 <%if(gameflag==1){%>
+
 <body onload="startGame()">
-<%}else if(gameflag==2){%>
-<body onload="startGame()">
-<%}else if(gameflag==3){%>
-<body onload="tetris_run(document.getElementById('game'))">
-<%}else{%>
-<body>
-<%}%>
+  <%}else if(gameflag==2){%>
+
+  <body onload="startGame()">
+    <%}else if(gameflag==3){%>
+
+    <body onload="tetris_run(document.getElementById('game'))">
+      <%}else{%>
+
+      <body>
+        <%}%>
   <!-- Navbar -->
   <nav class="navbar navbar-default">
     <div class="container">
@@ -180,43 +184,59 @@ div.tetrisBlock.habitated {
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
           <%if(!flag){%>
-            <li><a href="/join">JOIN</a></li>
-            <%} else {%>
-            <li><a href="/login/out">LOGOUT</a></li>
-            <%} %>
-            <li><a href="/board">BOARD</a></li>
+        <li><a href="/join">JOIN</a></li>
+        <%} else {%>
+        <li><a href="/login/out">LOGOUT</a></li>
+        <%} %>
+        <li><a href="/board">BOARD</a></li>
         </ul>
-      </div>
-    </div>
-  </nav>
+        </div>
+        </div>
+        </nav>
 
-  <!-- First Container -->
-  <div id="join_form" class="container-fluid bg-1 text-center">
-    <div id='game' style="display: inline-block;"></div>
-    <% if(gameflag==1){ %>
-    <br>
-    <button class="btn btn-primary" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" style="display:inline-block;">ACCELERATE</button>
-    <p style="height: 20px;"></p>
-    <p>버튼을 누르면 캐릭터가 점프 합니다.</p>
-    <p>점프를 이용하여 캐릭터를 멀리 보내세요.</p>
-    <%} else if(gameflag==2){ %>
-      <br>
-      <div style="text-align:center;width:480px; display:inline-block;">
-        <button class="btn btn-primary" onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()" style="margin: 10px;">UP</button><br>
-        <button class="btn btn-primary" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()" style="margin: 10px;">LEFT</button>
-        <button class="btn btn-primary" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()" style="margin: 10px;">RIGHT</button><br>
-        <button class="btn btn-primary" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()" style="margin: 10px;">DOWN</button>
-    </div>
-    <% } else if(gameflag==0){ %>
-      <div class="container-fluid bg-1 text-center">
-        <img src="/image.jfif" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/1'">
-        <img src="/image.jfif" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/2'">
-        <img src="/tetris.png" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/3'">
-      </div>
-    <% } %>
-  </div>
+        <!-- First Container -->
+        <div id="join_form" class="container-fluid bg-1 text-center">
+          <div id="myfilter"
+            style="position:absolute;background-color: rgb(0, 0, 0);opacity: 0.3;width: 482px;height: 272px;display:none;">
+          </div>
+          <div id="restart" style="position:absolute; padding-top: 120px; padding-left: 200px; display: none;"><button
+              class="btn btn-primary" onclick="restartGame()" style="display:inline-block;">RESTART</button></div>
+          <div id='game' style=" display: inline-block;"></div>
+          <% if(gameflag==1){ %>
+          <br>
+          <div style="display: inline-block;">
 
-  <!--   // Second Container 
+            <button class="btn btn-primary" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)"
+              style="display:inline-block;">ACCELERATE</button>
+            <p style="height: 20px;"></p>
+            <p>버튼을 누르면 캐릭터가 점프 합니다.</p>
+            <p>점프를 이용하여 캐릭터를 멀리 보내세요.</p>
+          </div>
+          <%} else if(gameflag==2){ %>
+          <br>
+          <div style="text-align:center;width:480px; display:inline-block;">
+            <button class="btn btn-primary" onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"
+              style="margin: 10px;">UP</button><br>
+            <button class="btn btn-primary" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"
+              style="margin: 10px;">LEFT</button>
+            <button class="btn btn-primary" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"
+              style="margin: 10px;">RIGHT</button><br>
+            <button class="btn btn-primary" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"
+              style="margin: 10px;">DOWN</button>
+          </div>
+          <% } else if(gameflag==0){ %>
+          <div class="container-fluid bg-1 text-center">
+            <img src="/game.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
+              onclick="location.href='/game/1'">
+            <img src="/game2.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
+              onclick="location.href='/game/2'">
+            <img src="/tetris.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
+              onclick="location.href='/game/3'">
+          </div>
+          <% } %>
+        </div>
+
+        <!--   // Second Container 
     <div class="container-fluid bg-2 text-center">
       <h3 class="margin">게시판 검색</h3>
       <input id="search_board" />
@@ -269,11 +289,11 @@ div.tetrisBlock.habitated {
       </div>
     </div> -->
 
-  <!-- Footer -->
-  <footer class="container-fluid bg-4 text-center">
-    <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p>
-  </footer>
+        <!-- Footer -->
+        <footer class="container-fluid bg-4 text-center">
+          <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p>
+        </footer>
 
-</body>
+      </body>
 
 </html>
