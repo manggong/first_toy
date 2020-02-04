@@ -106,8 +106,8 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-.package-lock.json
+package-lock.json
 
-.package.json
+package.json
 
-.db_con.js
+db_con.js
