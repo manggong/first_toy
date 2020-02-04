@@ -1,6 +1,7 @@
 var myGamePiece;
 var myObstacles = [];
 var myScore;
+var serverscore;
 var filter;
 var restart;
 
@@ -37,6 +38,7 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function () {
+        serverscore = this.frameNo;
         clearInterval(this.interval);
     }
 }
@@ -99,19 +101,15 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
+            $.post('/game/1', {
+                serverscore
+            }, (returnData) => {
+                alert(returnData.message);
+            });
             filter = document.getElementById('myfilter');
             restart = document.getElementById('restart');
             filter.style.display = 'inline-block';
             restart.style.display = 'inline-block';
-            const score = myGameArea.frameNo;
-            const send_param = {
-                score
-            }
-
-            $.post('/game/1', send_param, function (returnData) {
-                alert(returnData.message);
-            });
-
             return;
         }
     }

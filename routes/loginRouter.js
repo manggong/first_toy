@@ -1,4 +1,4 @@
-const con = require('./db_con');
+const con = require('../db_con');
 const express = require('express')
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
     const id = req.body.id;
     const pw = req.body.pw;
 
-    con.query(`SELECT name, id, pw FROM users WHERE id='${id}' AND pw='${pw}'`, function (err, result) {
+    con.query(`SELECT name, id, pw FROM users WHERE id=${con.escape(id)} AND pw=${con.escape(pw)}`, function (err, result) {
         if (err) throw err;
         console.log(result[0]);
         if (result[0]) {
@@ -38,9 +38,7 @@ router.post('/', (req, res) => {
 
 router.get('/out', (req, res) => {
     req.session.destroy();
-    res.render('index', {
-        flag: 0
-    });
+    res.redirect('/')
 })
 
 module.exports = router;

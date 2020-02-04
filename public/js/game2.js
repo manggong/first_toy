@@ -72,7 +72,6 @@ function component(width, height, color, x, y, type) {
         var othertop = otherobj.y;
         var otherbottom = otherobj.y + (otherobj.height);
         var crash = true;
-        console.log(mytop);
         if (((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) ||
                 (myleft > otherright)) && ((mytop >= 0) && (mybottom <= 260))) {
             crash = false;

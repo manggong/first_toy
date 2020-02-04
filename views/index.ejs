@@ -3,14 +3,15 @@
 
 <head>
   <!-- Theme Made By www.w3schools.com - No Copyright -->
-  <title>Bootstrap Theme Simply Me</title>
+  <title>WithJihwan</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="client.js"></script>
+  <script src="js/client.js"></script>
+  <link rel="stylesheet" href="crown.css">
   <style>
     body {
       font: 20px Montserrat, sans-serif;
@@ -68,6 +69,15 @@
     .navbar-nav li a:hover {
       color: #1abc9c !important;
     }
+
+    .table tbody tr:hover {
+      color: #212529;
+      background-color: cornflowerblue;
+    }
+
+    th {
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -77,12 +87,7 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">Me</a>
+        <a class="navbar-brand" href="/">WithJihwan</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
@@ -99,79 +104,138 @@
     </div>
   </nav>
 
+
   <!-- First Container -->
   <div class="container-fluid bg-1 text-center">
-    <img src="/game.png" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/1'">
-    <img src="/game2.png" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/2'">
-    <img src="/tetris.png" width="300px" style="margin: 0px 30px; cursor:pointer;" onclick="location.href='/game/3'">
+    <h1>PLAY GAME</h1><br><br>
+    <div class="col-sm-4">
+      <h2>GAME1</h2>
+      <img src="/image/game1.png" width="300px" height="160px" style="margin: 30px 30px; cursor:pointer;"
+        onclick="location.href='/game/1'">
+    </div>
+    <div class="col-sm-4">
+      <h2>GAME2</h2>
+      <img src="/image/game2.png" width="300px" height="160px" style="margin: 30px 30px; cursor:pointer;"
+        onclick="location.href='/game/2'">
+    </div>
+    <div class="col-sm-4">
+      <h2>TETRIS</h2>
+      <img src="/image/tetris.png" width="300px" height="160px" style="margin: 30px 30px; cursor:pointer;"
+        onclick="location.href='/game/3'">
+
+    </div>
   </div>
 
   <!-- Second Container -->
-  <div class="container-fluid bg-2 text-center">
-    <h3 class="margin">게시판 검색</h3>
-    <form action="/board" method="GET">
-      <input name="search" style="color: black;">
-      <button class="btn btn-default btn-lg" type="submit" id="search_btn">
-        <span class="glyphicon glyphicon-search"></span> Search
-      </button>
-    </form>
-  </div>
 
   <!-- Third Container (Grid) -->
   <div class="container-fluid bg-3 text-center">
-    <h3 class="margin">RANKING</h3><br>
+    <h1>RANKING</h1><br>
     <div class="row">
       <div class="col-sm-4">
-        <p>GAME RANKING</p>
-        <table border="1">
-          <% for(let i=0; i<game1Result.length; i++) {%>
-          <tr>
-            <td><%=i+1%></td>
-            <td><%=game1Result[i].name%></td>
-            <td><%=game1Result[i].id%></td>
-            <td><%=game1Result[i].score%></td>
-          </tr>
-          <%}%>
+        <h2>GAME RANKING</h2>
+        <br>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>RANK</th>
+              <th>이름</th>
+              <th>SCORE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0; i<game1Result.length; i++) {%>
+            <tr>
+
+
+              <td><%=i+1%></td>
+
+              <td><% if(i==0){ %>
+                <span class="glyphicon glyphicon-king" style="color: gold;"></span>&nbsp;
+                <% } %><%=game1Result[i].name%><% if(i==0){ %>
+                &nbsp;<span class="glyphicon glyphicon-king" style="color: gold;"></span>
+                <% } %></td>
+              <td><%=game1Result[i].score%></td>
+            </tr>
+            <%}%>
+        </tbody>
         </table>
       </div>
 
       <div class="col-sm-4">
-        <p>GAME2 RANKING</p>
-        <table border="1">
+        <h2>GAME2 RANKING</h2>
+        <br>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>RANK</th>
+            <th>이름</th>
+            <th>SCORE</th>
+          </tr>
+        </thead>
+        <tbody>
           <% for(let i=0; i<game2Result.length; i++) {%>
-          <tr>
-            <td><%=i+1%></td>
-            <td><%=game2Result[i].name%></td>
-            <td><%=game2Result[i].id%></td>
-            <td><%=game2Result[i].score%></td>
-          </tr>
-          <%}%>
+            <tr>
+
+
+              <td><%=i+1%></td>
+
+              <td><% if(i==0){ %>
+                <span class="glyphicon glyphicon-king" style="color: gold;"></span>&nbsp;
+                <% } %><%=game2Result[i].name%><% if(i==0){ %>
+                &nbsp;<span class="glyphicon glyphicon-king" style="color: gold;"></span>
+                <% } %></td>
+              <td><%=game2Result[i].score%></td>
+            </tr>
+            <%}%>
+        </tbody>
         </table>
 
       </div>
-
+      
       <div class="col-sm-4">
-        <p>TETRIS RANKING</p>
-        <table border="1">
-          <% for(let i=0; i<tetrisResult.length; i++) {%>
+        <h2>TETRIS RANKING</h2>
+        <br>
+        <table class="table">
+          <thead>
           <tr>
-            <td><%=i+1%></td>
-            <td><%=tetrisResult[i].name%></td>
-            <td><%=tetrisResult[i].id%></td>
-            <td><%=tetrisResult[i].score%></td>
+            <th>RANK</th>
+            <th>이름</th>
+            <th>SCORE</th>
           </tr>
-          <%}%>
+        </thead>
+        <tbody>
+          <% for(let i=0; i<tetrisResult.length; i++) {%>
+            <tr>
+
+
+              <td><%=i+1%></td>
+
+              <td><% if(i==0){ %>
+                <span class="glyphicon glyphicon-king" style="color: gold;"></span>&nbsp;
+                <% } %><%=tetrisResult[i].name%><% if(i==0){ %>
+                &nbsp;<span class="glyphicon glyphicon-king" style="color: gold;"></span>
+                <% } %></td>
+              <td><%=tetrisResult[i].score%></td>
+            </tr>
+            <%}%>
+        </tbody>
         </table>
       </div>
 
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="container-fluid bg-4 text-center">
-    <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p>
-  </footer>
-
+  <div class="container-fluid bg-2 text-center">
+    <h1 class="margin">게시판 검색</h1>
+    <form action="/board" method="GET">
+      <input name="search" style="color: black;">
+      <button class="btn btn-default btn-lg" type="submit" id="search_btn">
+      <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </form>
+  </div>
+<!-- Footer -->
 </body>
-
 </html>

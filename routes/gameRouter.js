@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const con = require('./db_con');
+const con = require('../db_con');
 
 router.get('/', (req, res) => {
     let flag;
@@ -27,11 +27,11 @@ router.get('/1', (req, res) => {
 router.post('/1', (req, res) => {
     let name = req.session.name;
     let id = req.session.uid;
-    let score = req.body.score;
+    let score = req.body.serverscore;
     if (name === undefined) {
         res.json({
             message: `로그인을 하시면 랭킹 등록이 가능합니다.`
-        })
+        });
     } else {
         con.query(`INSERT INTO game1 (name, id, score) VALUES ('${name}', '${id}', '${score}')`, (err, result) => {
             if (err) throw err;
@@ -92,7 +92,7 @@ router.post('/3', (req, res) => {
             message: `로그인을 하시면 랭킹 등록이 가능합니다.`
         })
     } else {
-        con.query(`INSERT INTO game2 (name, id, score) VALUES ('${name}', '${id}', '${score}')`, (err, result) => {
+        con.query(`INSERT INTO tetris (name, id, score) VALUES ('${name}', '${id}', '${score}')`, (err, result) => {
             if (err) throw err;
             res.json({
                 message: `${name}님의 점수는 ${score}점 입니다.`

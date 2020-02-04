@@ -1,15 +1,16 @@
-const express=require('express');
-const session=require('express-session');
-const app=express();
-const path=require('path');
-const index=require('./routes/index');
-const board=require('./routes/board');
-const login=require('./routes/login');
-const game=require('./routes/game');
-const join=require('./routes/join');
+const indexRouter = require('./routes/indexRouter');
+const boardRouter = require('./routes/boardRouter');
+const loginRouter = require('./routes/loginRouter');
+const gameRouter = require('./routes/gameRouter');
+const joinRouter = require('./routes/joinRouter');
+const express = require('express');
+const session = require('express-session');
+const app = express();
+const path = require('path');
 
-app.set('views',path.join(__dirname, 'views'));
-app.set('view engine','ejs');
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(
     session({
@@ -22,16 +23,18 @@ app.use(
         }
     })
 );
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({
+    extended: true
+}));
 
-app.use('/',index);
-app.use('/board',board);
-app.use('/login', login);
-app.use('/game', game);
-app.use('/join', join);
+app.use('/', indexRouter);
+app.use('/board', boardRouter);
+app.use('/login', loginRouter);
+app.use('/game', gameRouter);
+app.use('/join', joinRouter);
 
-app.listen(3030,()=>{
+app.listen(3030, () => {
     console.log('server start');
 })

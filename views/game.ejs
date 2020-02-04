@@ -3,20 +3,20 @@
 
 <head>
   <!-- Theme Made By www.w3schools.com - No Copyright -->
-  <title>game</title>
+  <title>Game</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="/client.js"></script>
+  <script src="/js/client.js"></script>
   <%if(gameflag==1){%>
-  <script src="/game.js"></script>
+  <script src="/js/game.js"></script>
   <%} else if(gameflag==2){%>
-  <script src="/game2.js"></script>
+  <script src="/js/game2.js"></script>
   <%} else if(gameflag==3){%>
-  <script src="/tetris.js"></script>
+  <script src="/js/tetris.js"></script>
   <%}%>   
 
   <style>
@@ -38,9 +38,10 @@ div.tetrisGame div.tetrisLeftPane {
 
 div.tetrisLeftPane div.tetrisScore {
   position: absolute;
-  top: 150px;
-  left: 0;
+  top: 200px;
+  left: 0px;
   font-size: 20pt;
+  text-align: left;
 }
 
 div.tetrisLeftPane div.tetrisPreview {
@@ -53,7 +54,7 @@ div.tetrisLeftPane div.tetrisPreview {
 div.tetrisLeftPane div.tetrisUsage {
   position: absolute;
   left: 0;
-  top: 300px;
+  top: 400px;
 }
 
 div.tetrisLeftPane div.tetrisUsage th,
@@ -89,9 +90,43 @@ div.tetrisBlock {
   background-color: black;
 }
 
-div.tetrisBlock.habitated {
+div.tetrisBlock.habitated1 {
   border: 1px solid black;
-  background-color: gray;
+  background: linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113));
+}
+
+div.tetrisBlock.habitated2{
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(247, 255, 0), rgb(219, 54, 164));
+}
+
+div.tetrisBlock.habitated3 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(238, 205, 163), rgb(239, 98, 159));
+}
+
+div.tetrisBlock.habitated4 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(194, 229, 156), rgb(100, 179, 244));
+}
+
+div.tetrisBlock.habitated5 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(0, 210, 255), rgb(146, 141, 171));
+}
+
+div.tetrisBlock.habitated6 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(33, 150, 243), rgb(244, 67, 54));
+}
+
+div.tetrisBlock.habitated7 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(186, 83, 112), rgb(244, 226, 216));
+}
+div.tetrisBlock.habitated8 {
+  border: 1px solid black;
+  background: linear-gradient(to right, rgb(189, 195, 199), rgb(44, 62, 80));
 }
     body {
       font: 20px Montserrat, sans-serif;
@@ -174,21 +209,18 @@ div.tetrisBlock.habitated {
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">Logo</a>
+        <a class="navbar-brand" href="/">WithJihwan</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
           <%if(!flag){%>
+        <li><a href="/login">LOGIN</a></li>
         <li><a href="/join">JOIN</a></li>
         <%} else {%>
         <li><a href="/login/out">LOGOUT</a></li>
         <%} %>
-        <li><a href="/board">BOARD</a></li>
+        <li><a href="/game">GAME</a></li>
+        <li><a href="/board" id="board">BOARD</a></li>
         </ul>
         </div>
         </div>
@@ -200,7 +232,8 @@ div.tetrisBlock.habitated {
             style="position:absolute;background-color: rgb(0, 0, 0);opacity: 0.3;width: 482px;height: 272px;display:none;">
           </div>
           <div id="restart" style="position:absolute; padding-top: 120px; padding-left: 200px; display: none;"><button
-              class="btn btn-primary" onclick="restartGame()" style="display:inline-block;">RESTART</button></div>
+              class="btn btn-primary" onclick="restartGame()" style="display:inline-block;" id="retext">RESTART</button>
+          </div>
           <div id='game' style=" display: inline-block;"></div>
           <% if(gameflag==1){ %>
           <br>
@@ -226,12 +259,22 @@ div.tetrisBlock.habitated {
           </div>
           <% } else if(gameflag==0){ %>
           <div class="container-fluid bg-1 text-center">
-            <img src="/game.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
-              onclick="location.href='/game/1'">
-            <img src="/game2.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
-              onclick="location.href='/game/2'">
-            <img src="/tetris.png" width="300px" style="margin: 0px 30px; cursor:pointer;"
-              onclick="location.href='/game/3'">
+            <div class="col-sm-4">
+              <h2>GAME1</h2>
+              <img src="/image/game1.png" width="300px" style="margin: 30px 30px; cursor:pointer;"
+                onclick="location.href='/game/1'">
+            </div>
+            <div class="col-sm-4">
+              <h2>GAME2</h2>
+              <img src="/image/game2.png" width="300px" style="margin: 30px 30px; cursor:pointer;"
+                onclick="location.href='/game/2'">
+            </div>
+            <div class="col-sm-4">
+              <h2>TETRIS</h2>
+              <img src="/image/tetris.png" width="300px" style="margin: 30px 30px; cursor:pointer;"
+                onclick="location.href='/game/3'">
+
+            </div>
           </div>
           <% } %>
         </div>
@@ -289,10 +332,6 @@ div.tetrisBlock.habitated {
       </div>
     </div> -->
 
-        <!-- Footer -->
-        <footer class="container-fluid bg-4 text-center">
-          <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p>
-        </footer>
 
       </body>
 

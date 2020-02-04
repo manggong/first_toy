@@ -109,3 +109,5 @@ dist
 .package-lock.json
 
 .package.json
+
+.db_con.js
