@@ -18,11 +18,6 @@ router.post('/', (req, res) => {
             req.session.name = result[0].name;
             req.session.uid = id;
             const name = result[0].name
-            /*  res.render('index', {
-                 flag: 1
-             }, (err) => {
-                 console.log(err);
-             }); */
             res.json({
                 message: `${name}님 안녕하세요`,
                 flag: 1
